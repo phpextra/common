@@ -1,0 +1,20 @@
+{
+    "name": "phpextra/common",
+    "description": "Common interfaces and classes",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Jacek Kobus",
+            "email": "kobus.jacek@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "PHPExtra": "./src"
+        }
+    },
+    "require": {
+
+    }
+}

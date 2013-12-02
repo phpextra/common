@@ -1,5 +1,7 @@
 <?php
 
+namespace PHPExtra\Common;
+
 /**
  * Allows converting objects to arrays
  */
