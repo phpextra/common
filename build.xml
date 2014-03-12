@@ -191,7 +191,7 @@
             <arg path="./vendor/instaclick/symfony2-coding-standard"/>
         </exec>
     </target>
-t
+
     <target name="phpcs" depends="phpcs-config"
             description="Find coding standard violations using PHP_CodeSniffer">
         <exec executable="${basedir}/vendor/bin/phpcs${bin-extension}">
