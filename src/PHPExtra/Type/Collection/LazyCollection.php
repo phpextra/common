@@ -194,9 +194,7 @@ class LazyCollection extends Collection implements LazyObjectInterface
 
         $this->initializer = function () use (&$serialized, &$that) {
             $data = unserialize($serialized);
-            $that->readOnly = $data['readonly'];
-            $that->position = 0;
-
+            $that->setReadOnly($data['readonly']);
             return $data['entities'];
         };
     }
