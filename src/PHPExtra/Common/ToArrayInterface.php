@@ -3,12 +3,15 @@
 namespace PHPExtra\Common;
 
 /**
- * Allows converting objects to arrays
+ * The ToArrayInterface interface
+ * Object implementing this interface is able to transform into array
+ *
+ * @author Jacek Kobus <kobus.jacek@gmail.com>
  */
 interface ToArrayInterface
 {
     /**
-     * Convert object to an array
+     * Transform object to an array
      *
      * @return array
      */

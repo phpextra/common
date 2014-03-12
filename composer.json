@@ -15,6 +15,9 @@
         }
     },
     "require": {
-
+        "phpextra/qa-tools": "*"
+    },
+    "archive": {
+        "exclude": ["/build", "/tests", "phpunit.bat", "fixer.bat", "phpunit.xml.dist", "test.php", "test.bat", "build.xml"]
     }
 }
