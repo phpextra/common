@@ -5,7 +5,7 @@
     <property name="build.property.file" value="build.properties"/>
     <property file="${build.property.file}"/>
     <property name="build.version" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
-    <!--<property name="build.version.file" value="${basedir}/src/PHPExtra/MobileService/Client/Version.php"/>-->
+    <!--<property name="build.version.file" value="${basedir}/src/PHPExtra/Version.php"/>-->
 
     <property name="php" value="php"/>
     <property name="phpunit" value="phpunit"/>
@@ -191,7 +191,7 @@
             <arg path="./vendor/instaclick/symfony2-coding-standard"/>
         </exec>
     </target>
-t
+
     <target name="phpcs" depends="phpcs-config"
             description="Find coding standard violations using PHP_CodeSniffer">
         <exec executable="${basedir}/vendor/bin/phpcs${bin-extension}">
