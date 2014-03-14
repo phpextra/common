@@ -19,6 +19,7 @@
     </target>
 
     <target name="release">
+        <antcall target="build"/>
         <antcall target="git-clean"/>
         <antcall target="git-tag-and-push-release"/>
         <antcall target="update-build-revision"/>
