@@ -14,8 +14,8 @@
             "PHPExtra": "./src"
         }
     },
-    "require": {
-        "phpextra/qa-tools": "*"
+    "require-dev": {
+        "phpextra/qa-tools": "~1.0"
     },
     "archive": {
         "exclude": ["/build", "/tests", "phpunit.bat", "fixer.bat", "phpunit.xml.dist", "test.php", "test.bat", "build.xml"]
