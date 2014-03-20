@@ -82,7 +82,7 @@ class UnknownType
     public function getAsCollection()
     {
         if (!$this->isCollection()) {
-            throw new \RuntimeException('Value is not a scalar type');
+            throw new \RuntimeException('Value is not a collection');
         }
 
         return $this->getValue();
