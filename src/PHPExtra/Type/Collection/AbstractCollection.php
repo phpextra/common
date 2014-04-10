@@ -147,6 +147,22 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
     /**
      * {@inheritdoc}
      */
+    public function first()
+    {
+        return $this->count() > 0 ? $this->offsetGet(0) : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function last()
+    {
+        return $this->count() > 0 ? $this->offsetGet($this->count() - 1) : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function current()
     {
         return $this->offsetGet($this->position);
@@ -190,12 +206,13 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
     public function filter(Closure $c)
     {
         $filtered = new Collection();
+        $this->rewind();
         foreach ($this as $offset => $element) {
             if ($c($element, $offset) === true) {
                 $filtered->add($element);
             }
         }
-
+        $this->rewind();
         return $filtered;
     }
 

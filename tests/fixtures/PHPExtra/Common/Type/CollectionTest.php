@@ -79,6 +79,8 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('stdClass', $collection->offsetGet(0));
     }
 
+
+
     /**
      * @expectedException OutOfRangeException
      */
@@ -309,4 +311,36 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test5', $newCollection->offsetGet(2));
 
     }
+
+    /**
+     * @dataProvider collectionProvider
+     */
+    public function testGetLastElementOnNonEmptyCollectionReturnsEntity(Collection $collection)
+    {
+        $this->assertNotNull($collection->last());
+    }
+
+    /**
+     * @dataProvider collectionProvider
+     */
+    public function testGetFirstElementOnNonEmptyCollectionReturnsEntity(Collection $collection)
+    {
+        $this->assertNotNull($collection->first());
+    }
+
+    public function testGetLastElementOnEmptyCollectionReturnsNull()
+    {
+        $collection = new Collection();
+
+        $this->assertNull($collection->last());
+    }
+
+    public function testGetFirstElementOnEmptyCollectionReturnsNull()
+    {
+        $collection = new Collection();
+
+        $this->assertNull($collection->first());
+    }
+
+
 }

@@ -33,6 +33,22 @@ interface CollectionInterface extends \Countable, \ArrayAccess, \Iterator
     public function filter(Closure $c);
 
     /**
+     * Get first element from the collection
+     *
+     * @since 1.0.1
+     * @return mixed
+     */
+    public function first();
+
+    /**
+     * Get last element from the collection
+     *
+     * @since 1.0.1
+     * @return mixed
+     */
+    public function last();
+
+    /**
      * Extract a slice of the collection
      *
      * @param int $offset
