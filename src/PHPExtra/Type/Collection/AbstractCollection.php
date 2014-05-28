@@ -221,10 +221,14 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
      */
     public function slice($offset = 0, $length = null)
     {
-        $slice = array_slice($this->entities, $offset, $length);
-        $collection = new Collection($slice);
-        $collection->setReadOnly($this->isReadOnly());
+        if($this->entities instanceof CollectionInterface){
+            $collection = $this->entities->slice($offset, $length);
+        }else{
+            $slice = array_slice($this->entities, $offset, $length);
+            $collection = new Collection($slice);
+        }
 
+        $collection->setReadOnly($this->isReadOnly());
         return $collection;
     }
 
