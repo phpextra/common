@@ -107,7 +107,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function hasPage($number)
     {
-        return $this->getTotalPageCount() <= $number;
+        return $this->getTotalPageCount() >= $number;
     }
 
     /**
@@ -186,11 +186,27 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
+     * @return int
+     */
+    public function getPreviousPageNumber()
+    {
+        return $this->getCurrentPageNumber() - 1;
+    }
+
+    /**
      * @return bool
      */
     public function hasNextPage()
     {
-        return $this->hasPage($this->getCurrentPageNumber() + 1);
+        return $this->hasPage($this->getNextPageNumber());
+    }
+
+    /**
+     * @return int
+     */
+    public function getNextPageNumber()
+    {
+        return $this->getCurrentPageNumber() + 1;
     }
 
     /**
@@ -198,7 +214,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function getNextPage()
     {
-        return $this->getPage($this->currentPageNumber + 1);
+        return $this->getPage($this->getNextPageNumber());
     }
 
     /**
@@ -248,7 +264,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function current()
     {
-        return $this->getcurrentPageNumber();
+        return $this->getCurrentPage();
     }
 
     /**

@@ -117,10 +117,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasNextPageReturnsTrueIfThereIsMorePages(Paginator $paginator)
     {
-        $this->assertFalse($paginator->hasPreviousPage());
-
         $paginator->setCurrentPageNumber(5);
-
         $this->assertTrue($paginator->hasNextPage());
     }
 
