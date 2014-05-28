@@ -14,7 +14,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     /**
      * @var int
      */
-    protected $currentPage = 1;
+    protected $currentPageNumber = 1;
 
     /**
      * @var int
@@ -28,18 +28,23 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
 
     /**
      * @param CollectionInterface $items
+     * @param int                 $currentPageNumber
      * @param int                 $itemsPerPage
      */
-    function __construct(CollectionInterface $items = null, $itemsPerPage = 10)
+    function __construct(CollectionInterface $items = null, $currentPageNumber = 1, $itemsPerPage = 10)
     {
         $this->setItemsPerPage($itemsPerPage);
 
-        if($items){
+        if ($items) {
             $this->setItems($items);
         }
+
+        $this->setCurrentPageNumber($currentPageNumber);
     }
 
     /**
+     * Set collection that will be split into pages
+     *
      * @param CollectionInterface $items
      *
      * @return $this
@@ -52,6 +57,8 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
+     * Get all items from paginator
+     *
      * @return CollectionInterface
      */
     public function getItems()
@@ -67,7 +74,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function setItemsPerPage($itemsPerPage)
     {
-        if($itemsPerPage < 1){
+        if ($itemsPerPage < 1) {
             throw new \RuntimeException('Items per page must be > 0');
         }
         $this->itemsPerPage = $itemsPerPage;
@@ -81,7 +88,8 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     public function getTotalPageCount()
     {
         $itemsPerPage = bcdiv($this->getItems()->count(), $this->getItemsPerPage(), 2);
-        return ceil((float) $itemsPerPage);
+
+        return ceil((float)$itemsPerPage);
     }
 
     /**
@@ -90,26 +98,6 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     public function getItemsPerPage()
     {
         return $this->itemsPerPage;
-    }
-
-    /**
-     * @param int $currentPage
-     *
-     * @return $this
-     */
-    public function setCurrentPage($currentPage)
-    {
-        $this->currentPage = $currentPage;
-
-        return $this;
-    }
-
-    /**
-     * @return CollectionInterface
-     */
-    public function getCurrentPage()
-    {
-        return $this->getPage($this->currentPage);
     }
 
     /**
@@ -123,23 +111,57 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
+     * Set current page number
+     *
+     * @param int $currentPageNumber
+     *
+     * @return $this
+     */
+    public function setCurrentPageNumber($currentPageNumber)
+    {
+        $this->currentPageNumber = $currentPageNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get current page number
+     *
+     * @return int
+     */
+    public function getCurrentPageNumber()
+    {
+        return $this->currentPageNumber;
+    }
+
+    /**
+     * Return given page number (or current), if page number is null
+     *
      * @param int $number
      *
      * @throws \RuntimeException
      * @return CollectionInterface
      */
-    public function getPage($number = 1)
+    public function getPage($number = null)
     {
+        if ($number === null) {
+            $number = $this->getCurrentPageNumber();
+        }
+
         $start = (($this->getItemsPerPage() * $number) - $this->getItemsPerPage());
 
-        if($start < 0){
+        if ($start < 0) {
             $start = 0;
         }
 
         if ($this->getItems()->offsetExists($start)) {
             return $this->getItems()->slice($start, $this->getItemsPerPage());
         } else {
-            throw new \RuntimeException(sprintf('Page out of range: %s, total: %s', $number, $this->getTotalPageCount()));
+            throw new \RuntimeException(sprintf(
+                'Page out of range: %s, total: %s',
+                $number,
+                $this->getTotalPageCount()
+            ));
         }
     }
 
@@ -190,7 +212,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function current()
     {
-        return $this->getCurrentPage();
+        return $this->getcurrentPageNumber();
     }
 
     /**
@@ -198,7 +220,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function next()
     {
-        $this->currentPage++;
+        $this->currentPageNumber++;
     }
 
     /**
@@ -206,7 +228,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function key()
     {
-        return $this->currentPage;
+        return $this->currentPageNumber;
     }
 
     /**
@@ -214,7 +236,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function valid()
     {
-        return $this->hasPage($this->currentPage);
+        return $this->hasPage($this->currentPageNumber);
     }
 
     /**
@@ -222,6 +244,16 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function rewind()
     {
-        $this->currentPage = 1;
+        $this->currentPageNumber = 1;
+    }
+
+    /**
+     * Returns current page number
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getCurrentPageNumber();
     }
 }
