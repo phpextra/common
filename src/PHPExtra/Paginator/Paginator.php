@@ -87,7 +87,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
      */
     public function getTotalPageCount()
     {
-        $itemsPerPage = bcdiv($this->getItems()->count(), $this->getItemsPerPage(), 2);
+        $itemsPerPage = bcdiv(count($this->getItems()), $this->getItemsPerPage(), 2);
 
         return ceil((float)$itemsPerPage);
     }
@@ -157,12 +157,48 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
         if ($this->getItems()->offsetExists($start)) {
             return $this->getItems()->slice($start, $this->getItemsPerPage());
         } else {
-            throw new \RuntimeException(sprintf(
-                'Page out of range: %s, total: %s',
-                $number,
-                $this->getTotalPageCount()
-            ));
+            throw new \RuntimeException(sprintf('Page out of range: %s, total: %s', $number, $this->getTotalPageCount()));
         }
+    }
+
+    /**
+     * @return CollectionInterface
+     */
+    public function getCurrentPage()
+    {
+        return $this->getPage();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPreviousPage()
+    {
+        return $this->hasPage($this->getCurrentPageNumber() - 1);
+    }
+
+    /**
+     * @return CollectionInterface
+     */
+    public function getPreviousPage()
+    {
+        return $this->getPage($this->getCurrentPageNumber() - 1);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNextPage()
+    {
+        return $this->hasPage($this->getCurrentPageNumber() + 1);
+    }
+
+    /**
+     * @return CollectionInterface
+     */
+    public function getNextPage()
+    {
+        return $this->getPage($this->currentPageNumber + 1);
     }
 
     /**

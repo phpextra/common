@@ -25,7 +25,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $collection->add(6);
 
         return array(
-            array(new Paginator($collection, 1))
+            array(new Paginator($collection, 1, 1))
         );
     }
 
@@ -98,6 +98,30 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     {
         $paginator = new Paginator();
         unset($paginator[0]);
+    }
+
+    /**
+     * @dataProvider getCollection
+     */
+    public function testToStringReturnsCurrentPageNumber(Paginator $paginator)
+    {
+        $this->assertEquals('1', (string)$paginator);
+
+        $paginator->setCurrentPageNumber(5);
+
+        $this->assertEquals('5', (string)$paginator);
+    }
+
+    /**
+     * @dataProvider getCollection
+     */
+    public function testHasNextPageReturnsTrueIfThereIsMorePages(Paginator $paginator)
+    {
+        $this->assertFalse($paginator->hasPreviousPage());
+
+        $paginator->setCurrentPageNumber(5);
+
+        $this->assertTrue($paginator->hasNextPage());
     }
 
 
