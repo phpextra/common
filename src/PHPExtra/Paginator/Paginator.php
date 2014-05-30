@@ -2,6 +2,7 @@
 
 namespace PHPExtra\Paginator;
 
+use PHPExtra\Type\Collection\Collection;
 use PHPExtra\Type\Collection\CollectionInterface;
 
 /**
@@ -136,6 +137,9 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
 
     /**
      * Return given page number (or current), if page number is null
+     * If page does not exists paginator will get the closest matching page or an empty
+     * collection if there is no pages
+     * To see if page actually exists, use hasPage() method
      *
      * @param int $number
      *
@@ -148,16 +152,24 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
             $number = $this->getCurrentPageNumber();
         }
 
+        if($number > $this->getLastPageNumber()){
+            $number = $this->getLastPageNumber();
+        }
+
+        if($number < 1){
+            $number = 1;
+        }
+
         $start = (($this->getItemsPerPage() * $number) - $this->getItemsPerPage());
 
         if ($start < 0) {
             $start = 0;
         }
 
-        if ($this->getItems()->offsetExists($start)) {
+        if ($this->getItems() !== null && $this->getItems()->offsetExists($start)) {
             return $this->getItems()->slice($start, $this->getItemsPerPage());
         } else {
-            throw new \RuntimeException(sprintf('Page out of range: %s, total: %s', $number, $this->getTotalPageCount()));
+            return new Collection();
         }
     }
 
@@ -215,6 +227,22 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     public function getNextPage()
     {
         return $this->getPage($this->getNextPageNumber());
+    }
+
+    /**
+     * @return CollectionInterface
+     */
+    public function getLastPage()
+    {
+        return $this->getPage($this->getLastPageNumber());
+    }
+
+    /**
+     * @return int
+     */
+    public function getLastPageNumber()
+    {
+        return $this->getTotalPageCount();
     }
 
     /**

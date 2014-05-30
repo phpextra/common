@@ -121,6 +121,25 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($paginator->hasNextPage());
     }
 
+    /**
+     * @dataProvider getCollection
+     */
+    public function testGettingNonExistingPageReturnsClosestMatchingPage(Paginator $paginator)
+    {
+        $collection = $paginator->getPage(20);
+        $this->assertEquals(6, $collection[0]);
+
+        $collection = $paginator->getPage(-1);
+        $this->assertEquals(1, $collection[0]);
+    }
+
+    public function testGetPageOnEmptyPaginatorReturnsEmptyCollection()
+    {
+        $paginator = new Paginator();
+
+        $this->assertTrue($paginator->getPage()->isEmpty());
+    }
+
 
 }
  
