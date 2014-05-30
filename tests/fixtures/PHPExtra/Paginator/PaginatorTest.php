@@ -136,10 +136,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     public function testGetPageOnEmptyPaginatorReturnsEmptyCollection()
     {
         $paginator = new Paginator();
-
         $this->assertTrue($paginator->getPage()->isEmpty());
     }
-
-
 }
  
