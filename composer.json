@@ -19,5 +19,10 @@
     },
     "archive": {
         "exclude": ["/build", "/tests", "phpunit.bat", "fixer.bat", "phpunit.xml.dist", "test.php", "test.bat", "build.xml"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
