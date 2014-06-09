@@ -219,6 +219,17 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
     /**
      * {@inheritdoc}
      */
+    public function forAll(Closure $c)
+    {
+        foreach($this->entities as $offset => $entity){
+            $c($offset, $entity, $this);
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function slice($offset = 0, $length = null)
     {
         if($this->entities instanceof CollectionInterface){

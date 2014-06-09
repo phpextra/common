@@ -33,6 +33,15 @@ interface CollectionInterface extends \Countable, \ArrayAccess, \Iterator
     public function filter(Closure $c);
 
     /**
+     * Perform given operation on all collection elements
+     *
+     * @param Closure $c
+     *
+     * @return CollectionInterface
+     */
+    public function forAll(Closure $c);
+
+    /**
      * Get first element from the collection
      *
      * @since 1.0.1

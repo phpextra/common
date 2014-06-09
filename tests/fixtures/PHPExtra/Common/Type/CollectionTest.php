@@ -315,6 +315,22 @@ class CollectionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider collectionProvider
      */
+    public function testPerformForAllOperationModifiesAllEntries(CollectionInterface $collection)
+    {
+        $callable = function($offset, $element, CollectionInterface $collection){
+            $collection->offsetSet($offset, 1);
+        };
+
+        $collection->forAll($callable);
+
+        $this->assertEquals(1, $collection[0]);
+        $this->assertEquals(1, $collection[2]);
+        $this->assertEquals(1, $collection[6]);
+    }
+
+    /**
+     * @dataProvider collectionProvider
+     */
     public function testGetLastElementOnNonEmptyCollectionReturnsEntity(Collection $collection)
     {
         $this->assertNotNull($collection->last());
