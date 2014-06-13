@@ -10,7 +10,7 @@ use PHPExtra\Type\Collection\CollectionInterface;
  *
  * @author Jacek Kobus <kobus.jacek@gmail.com>
  */
-class Paginator implements \Iterator, \Countable, \ArrayAccess
+class Paginator implements PaginatorInterface
 {
     /**
      * @var int
@@ -44,11 +44,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * Set collection that will be split into pages
-     *
-     * @param CollectionInterface $items
-     *
-     * @return $this
+     * {@inheritdoc}
      */
     public function setItems(CollectionInterface $items)
     {
@@ -58,9 +54,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * Get all items from paginator
-     *
-     * @return CollectionInterface
+     * {@inheritdoc}
      */
     public function getItems()
     {
@@ -68,10 +62,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @param int $itemsPerPage
-     *
-     * @throws \RuntimeException
-     * @return $this
+     * {@inheritdoc}
      */
     public function setItemsPerPage($itemsPerPage)
     {
@@ -84,7 +75,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getTotalPageCount()
     {
@@ -94,7 +85,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getItemsPerPage()
     {
@@ -102,21 +93,15 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @param int $number
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasPage($number)
     {
-        return $this->getTotalPageCount() >= $number;
+        return ($number > 0 && $this->getTotalPageCount() >= $number) || $number == 1;
     }
 
     /**
-     * Set current page number
-     *
-     * @param int $currentPageNumber
-     *
-     * @return $this
+     * {@inheritdoc}
      */
     public function setCurrentPageNumber($currentPageNumber)
     {
@@ -126,9 +111,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * Get current page number
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getCurrentPageNumber()
     {
@@ -136,15 +119,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * Return given page number (or current), if page number is null
-     * If page does not exists paginator will get the closest matching page or an empty
-     * collection if there is no pages
-     * To see if page actually exists, use hasPage() method
-     *
-     * @param int $number
-     *
-     * @throws \RuntimeException
-     * @return CollectionInterface
+     * {@inheritdoc}
      */
     public function getPage($number = null)
     {
@@ -174,7 +149,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @return CollectionInterface
+     * {@inheritdoc}
      */
     public function getCurrentPage()
     {
@@ -182,47 +157,49 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasPreviousPage()
     {
-        return $this->hasPage($this->getCurrentPageNumber() - 1);
+        return $this->getPreviousPageNumber() !== null;
     }
 
     /**
-     * @return CollectionInterface
+     * {@inheritdoc}
      */
     public function getPreviousPage()
     {
-        return $this->getPage($this->getCurrentPageNumber() - 1);
+        return $this->getPage($this->getPreviousPageNumber());
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getPreviousPageNumber()
+    public function getPreviousPageNumber($default = null)
     {
-        return $this->getCurrentPageNumber() - 1;
+        $previous = $this->getCurrentPageNumber() - 1;
+        return $this->hasPage($previous) ? $previous : $default;
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasNextPage()
     {
-        return $this->hasPage($this->getNextPageNumber());
+        return $this->getNextPageNumber() !== null;
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getNextPageNumber()
+    public function getNextPageNumber($default = null)
     {
-        return $this->getCurrentPageNumber() + 1;
+        $next = $this->getCurrentPageNumber() + 1;
+        return $this->hasPage($next) ? $next : $default;
     }
 
     /**
-     * @return CollectionInterface
+     * {@inheritdoc}
      */
     public function getNextPage()
     {
@@ -230,7 +207,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @return CollectionInterface
+     * {@inheritdoc}
      */
     public function getLastPage()
     {
@@ -238,7 +215,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getLastPageNumber()
     {
@@ -278,9 +255,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * Get total page count
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -328,9 +303,7 @@ class Paginator implements \Iterator, \Countable, \ArrayAccess
     }
 
     /**
-     * Returns current page number
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function __toString()
     {

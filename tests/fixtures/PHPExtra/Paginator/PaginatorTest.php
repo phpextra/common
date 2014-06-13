@@ -3,6 +3,7 @@
 namespace fixtures\PHPExtra\Paginator;
 
 use PHPExtra\Paginator\Paginator;
+use PHPExtra\Paginator\PaginatorInterface;
 use PHPExtra\Type\Collection\Collection;
 use PHPExtra\Type\Collection\CollectionInterface;
 
@@ -39,10 +40,10 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getCollection
      */
-    public function testPerformForeachLoopOnPaginator(Paginator $paginator)
+    public function testPerformForeachLoopOnPaginator(PaginatorInterface $paginator)
     {
 
-        /** @var Paginator|CollectionInterface[] $paginator */
+        /** @var PaginatorInterface|CollectionInterface[] $paginator */
         foreach($paginator as $page){
             $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $page);
             $this->assertEquals(1, $page->count());
@@ -53,7 +54,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getCollection
      */
-    public function testAccessPaginatorLikeAnArray(Paginator $paginator)
+    public function testAccessPaginatorLikeAnArray(PaginatorInterface $paginator)
     {
         $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $paginator[0]);
         $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $paginator[1]);
@@ -62,7 +63,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $paginator[4]);
         $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $paginator[5]);
 
-        /** @var Paginator|CollectionInterface[] $paginator */
+        /** @var PaginatorInterface|CollectionInterface[] $paginator */
 
         $this->assertEquals(1, $paginator[1]->count());
 
@@ -71,7 +72,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getCollection
      */
-    public function testChangePaginatorItemsPerPageCount(Paginator $paginator)
+    public function testChangePaginatorItemsPerPageCount(PaginatorInterface $paginator)
     {
         $paginator->setItemsPerPage(10);
 
@@ -103,7 +104,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getCollection
      */
-    public function testToStringReturnsCurrentPageNumber(Paginator $paginator)
+    public function testToStringReturnsCurrentPageNumber(PaginatorInterface $paginator)
     {
         $this->assertEquals('1', (string)$paginator);
 
@@ -115,16 +116,32 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getCollection
      */
-    public function testHasNextPageReturnsTrueIfThereIsMorePages(Paginator $paginator)
+    public function testHasNextPageReturnsTrueIfThereIsMorePages(PaginatorInterface $paginator)
     {
         $paginator->setCurrentPageNumber(5);
         $this->assertTrue($paginator->hasNextPage());
     }
 
+    public function testGetNextPageNumberReturnsDefaultValueIfThereIsNoNextPage()
+    {
+        $paginator = new Paginator();
+        $this->assertNull($paginator->getNextPageNumber());
+        $this->assertEquals(12, $paginator->getNextPageNumber(12));
+        $this->assertTrue($paginator->getNextPageNumber(true));
+    }
+
+    public function testGetPreviousPageNumberReturnsDefaultValueIfThereIsNoPreviousPage()
+    {
+        $paginator = new Paginator();
+        $this->assertNull($paginator->getPreviousPageNumber());
+        $this->assertEquals(12, $paginator->getPreviousPageNumber(12));
+        $this->assertTrue($paginator->getPreviousPageNumber(true));
+    }
+
     /**
      * @dataProvider getCollection
      */
-    public function testGettingNonExistingPageReturnsClosestMatchingPage(Paginator $paginator)
+    public function testGettingNonExistingPageReturnsClosestMatchingPage(PaginatorInterface $paginator)
     {
         $collection = $paginator->getPage(20);
         $this->assertEquals(6, $collection[0]);
@@ -137,6 +154,13 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     {
         $paginator = new Paginator();
         $this->assertTrue($paginator->getPage()->isEmpty());
+        $this->assertTrue($paginator->getPage(1)->isEmpty());
+    }
+
+    public function testHasFirstPageOnEmptyPaginatorReturnsTrue()
+    {
+        $paginator = new Paginator();
+        $this->assertTrue($paginator->hasPage(1));
     }
 }
  
