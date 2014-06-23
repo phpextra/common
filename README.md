@@ -2,6 +2,9 @@
 
 ##Changelog
 
+###1.1.x
+- Collection::current() now returns null on empty collection
+
 ###1.1.0
 
 - added PaginatorInterface
