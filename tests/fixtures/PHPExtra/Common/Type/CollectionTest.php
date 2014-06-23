@@ -136,6 +136,23 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test1', $collection->current());
     }
 
+    public function testIteratorReturnsNullOnEmptyCollection()
+    {
+        $collection = new Collection();
+
+        $this->assertNull($collection->current());
+    }
+
+    public function testIteratorReturnsNullOnPositionOutsideOfCollectionBounds()
+    {
+        $collection = new Collection();
+        $collection->add('123');
+
+        $collection->next();
+
+        $this->assertNull($collection->current());
+    }
+
 
     /**
      * @expectedException \RuntimeException
