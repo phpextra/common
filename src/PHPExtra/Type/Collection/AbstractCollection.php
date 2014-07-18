@@ -165,7 +165,7 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
      */
     public function current()
     {
-        return isset($this->entities[$this->position]) ? $this->entities[$this->position] : null;
+        return $this->offsetExists($this->position) ? $this->offsetGet($this->position) : null;
     }
 
     /**
@@ -241,6 +241,15 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
 
         $collection->setReadOnly($this->isReadOnly());
         return $collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sort(Closure $callable)
+    {
+        uksort($this->entities, $callable);
+        return $this;
     }
 
     /**

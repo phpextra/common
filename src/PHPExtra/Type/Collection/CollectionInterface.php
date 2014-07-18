@@ -9,7 +9,7 @@ use Closure;
  *
  * @author Jacek Kobus <kobus.jacek@gmail.com>
  */
-interface CollectionInterface extends \Countable, \ArrayAccess, \Iterator
+interface CollectionInterface extends SortableInterface, \Countable, \ArrayAccess, \Iterator
 {
     /**
      * @param mixed $entity

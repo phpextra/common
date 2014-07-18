@@ -14,9 +14,9 @@ use PHPExtra\Type\UnknownType;
 class LazyCollection extends Collection implements LazyObjectInterface
 {
     /**
-     * @var CollectionInterface
+     * @var array
      */
-    protected $entities;
+    protected $entities = array();
 
     /**
      * @var Closure
@@ -37,7 +37,7 @@ class LazyCollection extends Collection implements LazyObjectInterface
             $this->setInitializer($initializer);
         }
         $this->setCollection(new Collection());
-        $this->setReadOnly(true);
+//        $this->setReadOnly(true);
     }
 
     /**
@@ -47,12 +47,12 @@ class LazyCollection extends Collection implements LazyObjectInterface
     public function initialize()
     {
         if ($this->getInitializer() !== null && !$this->isInitialized) {
+            $this->isInitialized = true;
             $collection = call_user_func($this->getInitializer());
             if (!$collection instanceof CollectionInterface) {
                 throw new \RuntimeException(sprintf('Unexpected type given: %s', gettype($collection)));
             }
             $this->setCollection($collection);
-            $this->isInitialized = true;
         }
 
         return $this;
@@ -85,7 +85,9 @@ class LazyCollection extends Collection implements LazyObjectInterface
      */
     public function setCollection(CollectionInterface $collection)
     {
-        $this->entities = $collection;
+        foreach($collection as $entity){
+            $this->add($entity);
+        }
 
         return $this;
     }
@@ -95,11 +97,17 @@ class LazyCollection extends Collection implements LazyObjectInterface
      * This method is intended to access internal collection property
      * without initializing the object itself
      *
+     * @deprecated will be removed in 1.2.0
      * @return CollectionInterface
      */
     public function getCollection()
     {
-        return $this->entities;
+        // for keeping backwards comp.
+        $collection = new Collection();
+        foreach($this->entities as $entity){
+            $collection->add($entity);
+        }
+        return $collection;
     }
 
     /**
@@ -133,6 +141,17 @@ class LazyCollection extends Collection implements LazyObjectInterface
     /**
      * {@inheritdoc}
      */
+    public function add($entity)
+    {
+        if(!$this->isInitialized()){
+            $this->initialize();
+        }
+        return parent::add($entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count()
     {
         $this->initialize();
@@ -160,11 +179,23 @@ class LazyCollection extends Collection implements LazyObjectInterface
         return parent::offsetGet($offset);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function slice($offset = 0, $length = null)
     {
         $this->initialize();
 
         return parent::slice($offset, $length);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sort(Closure $callable)
+    {
+        $this->initialize();
+
     }
 
     /**
@@ -177,7 +208,6 @@ class LazyCollection extends Collection implements LazyObjectInterface
     public function serialize()
     {
         $this->initialize();
-        $this->isInitialized = true;
         $this->initializer = null;
 
         return parent::serialize();

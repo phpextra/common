@@ -57,7 +57,6 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnCount(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
         $this->assertEquals(3, $collection->count());
     }
 
@@ -66,8 +65,9 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnOffsetGet(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
+        $this->assertEquals($collection[0], 'test1');
         $this->assertEquals($collection[1], 'test2');
+        $this->assertEquals($collection[2], 'test3');
     }
 
     /**
@@ -75,8 +75,9 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnOffsetExists(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
+        $this->assertTrue(isset($collection[0]));
         $this->assertTrue(isset($collection[1]));
+        $this->assertTrue(isset($collection[2]));
     }
 
     /**
@@ -84,8 +85,9 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnIfEmpty(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
         $this->assertFalse($collection->isEmpty());
+        $this->assertEquals(3, $collection->count());
+
     }
 
     /**
