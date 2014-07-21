@@ -28,6 +28,25 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         ));
     }
 
+    /**
+     * @return array
+     */
+    public function unsortedCollectionProvider()
+    {
+        $collection = new Collection();
+        $collection->add('test5');
+        $collection->add('test2');
+        $collection->add('test6');
+        $collection->add('test3');
+        $collection->add('test1');
+        $collection->add('test4');
+        $collection->add('test7');
+
+        return array(array(
+            $collection
+        ));
+    }
+
     public function testCreateEmptyCollectionInstance()
     {
         $collection = new Collection();
@@ -373,5 +392,24 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertNull($collection->first());
     }
 
+    /**
+     * @dataProvider unsortedCollectionProvider
+     */
+    public function testSortSimpleStringCollectionReturnsSortedCollectionOfStrings(CollectionInterface $collection)
+    {
+        $sorter = function($a, $b){
+            $s = strnatcmp($a, $b);
+            return $s;
+        };
 
+        $collection->sortUsing($sorter);
+
+        $this->assertEquals($collection[0], 'test1');
+        $this->assertEquals($collection[1], 'test2');
+        $this->assertEquals($collection[2], 'test3');
+        $this->assertEquals($collection[3], 'test4');
+        $this->assertEquals($collection[4], 'test5');
+        $this->assertEquals($collection[5], 'test6');
+        $this->assertEquals($collection[6], 'test7');
+    }
 }

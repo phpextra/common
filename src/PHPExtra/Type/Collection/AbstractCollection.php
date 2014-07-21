@@ -246,9 +246,10 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
     /**
      * {@inheritdoc}
      */
-    public function sort(Closure $callable)
+    public function sortUsing(Closure $callable)
     {
-        uksort($this->entities, $callable);
+        $this->position = 0;
+        usort($this->entities, $callable);
         return $this;
     }
 

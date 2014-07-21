@@ -17,5 +17,5 @@ interface SortableInterface
      *
      * @return CollectionInterface
      */
-    public function sort(Closure $callable);
+    public function sortUsing(Closure $callable);
 }

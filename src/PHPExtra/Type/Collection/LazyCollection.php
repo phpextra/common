@@ -192,9 +192,10 @@ class LazyCollection extends Collection implements LazyObjectInterface
     /**
      * {@inheritdoc}
      */
-    public function sort(Closure $callable)
+    public function sortUsing(Closure $callable)
     {
         $this->initialize();
+        return $this->sortUsing($callable);
     }
 
     /**
