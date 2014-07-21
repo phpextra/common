@@ -1,4 +1,5 @@
 <?php
+
 use PHPExtra\Type\Collection\Collection;
 use PHPExtra\Type\Collection\LazyCollection;
 
