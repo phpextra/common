@@ -122,14 +122,10 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
         $serialized = serialize($collection);
         $unserializedCollection = unserialize($serialized);
 
-        $this->assertNull($unserializedCollection->getCollection());
-
         $unserializedCollection->initialize();
-        $this->assertInstanceOf('PHPExtra\Type\Collection\LazyCollection', $unserializedCollection);
-        $this->assertInstanceOf('PHPExtra\Type\Collection\LazyCollection', $unserializedCollection->getCollection());
 
-        $unserializedCollection->getCollection()->initialize();
-        $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $unserializedCollection->getCollection()->getCollection());
+        $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $unserializedCollection);
+
         $this->assertEquals('1', $unserializedCollection[0]);
         $this->assertEquals('4', $unserializedCollection[3]);
     }

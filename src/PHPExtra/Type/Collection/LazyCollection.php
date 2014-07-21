@@ -195,7 +195,6 @@ class LazyCollection extends Collection implements LazyObjectInterface
     public function sort(Closure $callable)
     {
         $this->initialize();
-
     }
 
     /**
@@ -225,7 +224,13 @@ class LazyCollection extends Collection implements LazyObjectInterface
         $this->initializer = function () use (&$serialized, &$that) {
             $data = unserialize($serialized);
             $that->setReadOnly($data['readonly']);
-            return $data['entities'];
+
+            $collection = new Collection();
+            foreach($data['entities'] as $entity){
+                $collection->add($entity);
+            }
+
+            return $collection;
         };
     }
 
