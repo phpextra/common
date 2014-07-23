@@ -4,7 +4,7 @@
 
 ###1.2.0
 
--
+- added sorter support - sort(SorterInterface $sorter)
 
 ###1.1.1
 
