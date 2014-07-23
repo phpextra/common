@@ -2,7 +2,12 @@
 
 ##Changelog
 
-###1.1.x
+###1.2.0
+
+-
+
+###1.1.1
+
 - Collection::current() now returns null on empty collection
 
 ###1.1.0
