@@ -251,6 +251,7 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
     {
         $this->rewind();
         $this->entities = $sorter->sort($this->entities);
+        return $this;
     }
 
     /**
