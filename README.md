@@ -19,7 +19,7 @@
 
 ###1.0.3 (cannot be downgraded)
 
-- changed paginator behaviour - wil lreturn closest matching page ig page number is out of range or empty collection
+- changed paginator behaviour - will return closest matching page ig page number is out of range or empty collection
 - added getters for last page and its number
 
 ###1.0.2 (cannot be downgraded)
