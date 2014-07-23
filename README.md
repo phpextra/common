@@ -15,7 +15,7 @@
 
 - added PaginatorInterface
 - added default, optional, value holders for page number getters
-- added forAll(Closure $c) method in Collection
+- added Collection::forAll(Closure $c) method in collections
 
 ###1.0.3 (cannot be downgraded)
 
