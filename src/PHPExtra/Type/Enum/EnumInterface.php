@@ -13,4 +13,11 @@ interface EnumInterface
      * @return string
      */
     public function getValue();
+
+    /**
+     * @param EnumInterface $value
+     *
+     * @return bool
+     */
+    public function equals(EnumInterface $value);
 }

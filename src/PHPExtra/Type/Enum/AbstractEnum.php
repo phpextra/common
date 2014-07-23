@@ -76,6 +76,14 @@ abstract class AbstractEnum implements EnumInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function equals(EnumInterface $enum)
+    {
+        return $this->getValue() === $enum->getValue();
+    }
+
+    /**
      * @return string
      */
     public function __toString()
