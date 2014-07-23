@@ -14,6 +14,9 @@
             "PHPExtra": "./src"
         }
     },
+    "require": {
+        "phpextra/sorter": "~1.0"
+    },
     "require-dev": {
         "phpextra/qa-tools": "~1.0"
     },
