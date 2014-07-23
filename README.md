@@ -2,7 +2,7 @@
 
 ##Changelog
 
-###1.2.0
+###1.2.x
 
 - added sorter support - sort(SorterInterface $sorter)
 
