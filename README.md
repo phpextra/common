@@ -4,7 +4,8 @@
 
 ###1.2.x
 
-- added sorter support - sort(SorterInterface $sorter)
+- added CollectionInterface::sort(SorterInterface $sorter) for collections
+- added EnumInterface::equals(EnumInterface $enum) for enums
 
 ###1.1.1
 
