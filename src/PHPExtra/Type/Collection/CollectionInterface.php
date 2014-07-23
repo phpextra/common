@@ -3,6 +3,7 @@
 namespace PHPExtra\Type\Collection;
 
 use Closure;
+use PHPExtra\Sorter\SorterInterface;
 
 /**
  * The CollectionInterface interface
@@ -66,4 +67,13 @@ interface CollectionInterface extends \Countable, \ArrayAccess, \Iterator
      * @return $this
      */
     public function slice($offset = 0, $length = null);
+
+    /**
+     * Sort collection using given sorter
+     *
+     * @param SorterInterface $sorter
+     *
+     * @return $this
+     */
+    public function sort(SorterInterface $sorter);
 }

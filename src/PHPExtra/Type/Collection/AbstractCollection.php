@@ -3,6 +3,7 @@
 namespace PHPExtra\Type\Collection;
 
 use Closure;
+use PHPExtra\Sorter\SorterInterface;
 
 /**
  * The AbstractCollection class
@@ -241,6 +242,15 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
 
         $collection->setReadOnly($this->isReadOnly());
         return $collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sort(SorterInterface $sorter)
+    {
+        $this->rewind();
+        $this->entities = $sorter->sort($this->entities);
     }
 
     /**
