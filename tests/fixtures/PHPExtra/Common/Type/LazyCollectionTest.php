@@ -57,7 +57,6 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnCount(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
         $this->assertEquals(3, $collection->count());
     }
 
@@ -66,7 +65,6 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnOffsetGet(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
         $this->assertEquals($collection[1], 'test2');
     }
 
@@ -75,7 +73,6 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnOffsetExists(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
         $this->assertTrue(isset($collection[1]));
     }
 
@@ -84,7 +81,6 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyCollectionInitializeOnIfEmpty(LazyCollection $collection)
     {
-        $this->assertEquals(0, $collection->getCollection()->count());
         $this->assertFalse($collection->isEmpty());
     }
 
@@ -120,14 +116,8 @@ class LazyCollectionTest extends PHPUnit_Framework_TestCase
         $serialized = serialize($collection);
         $unserializedCollection = unserialize($serialized);
 
-        $this->assertNull($unserializedCollection->getCollection());
-
-        $unserializedCollection->initialize();
         $this->assertInstanceOf('PHPExtra\Type\Collection\LazyCollection', $unserializedCollection);
-        $this->assertInstanceOf('PHPExtra\Type\Collection\LazyCollection', $unserializedCollection->getCollection());
 
-        $unserializedCollection->getCollection()->initialize();
-        $this->assertInstanceOf('PHPExtra\Type\Collection\CollectionInterface', $unserializedCollection->getCollection()->getCollection());
         $this->assertEquals('1', $unserializedCollection[0]);
         $this->assertEquals('4', $unserializedCollection[3]);
     }

@@ -10,7 +10,7 @@ use PHPExtra\Sorter\SorterInterface;
  *
  * @author Jacek Kobus <kobus.jacek@gmail.com>
  */
-abstract class AbstractCollection implements CollectionInterface, \Serializable
+abstract class AbstractCollection implements CollectionInterface
 {
     /**
      * @var int
@@ -252,27 +252,5 @@ abstract class AbstractCollection implements CollectionInterface, \Serializable
         $this->rewind();
         $this->entities = $sorter->sort($this->entities);
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
-    {
-        return serialize(array(
-            'readonly' => $this->readOnly,
-            'entities' => $this->entities
-        ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized)
-    {
-        $data = unserialize($serialized);
-        $this->position = 0;
-        $this->readOnly = $data['readonly'];
-        $this->entities = $data['entities'];
     }
 }

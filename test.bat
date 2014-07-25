@@ -1,2 +1,2 @@
 @echo off
-%CD%/vendor/bin/phpunit.bat -v ./tests/fixtures
+%CD%/vendor/bin/phpunit.bat %* -v ./tests/fixtures

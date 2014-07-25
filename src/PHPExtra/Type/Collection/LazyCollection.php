@@ -9,15 +9,12 @@ use PHPExtra\Type\UnknownType;
 /**
  * The LazyCollection class
  *
+ * @deprecated this class will became FINAL in 1.3.x
+ *
  * @author Jacek Kobus <kobus.jacek@gmail.com>
  */
-class LazyCollection extends Collection implements LazyObjectInterface
+class LazyCollection extends CollectionProxy implements LazyObjectInterface, \Serializable
 {
-    /**
-     * @var CollectionInterface
-     */
-    protected $entities;
-
     /**
      * @var Closure
      */
@@ -36,8 +33,7 @@ class LazyCollection extends Collection implements LazyObjectInterface
         if ($initializer !== null) {
             $this->setInitializer($initializer);
         }
-        $this->setCollection(new Collection());
-        $this->setReadOnly(true);
+        parent::__construct(new Collection());
     }
 
     /**
@@ -47,15 +43,33 @@ class LazyCollection extends Collection implements LazyObjectInterface
     public function initialize()
     {
         if ($this->getInitializer() !== null && !$this->isInitialized) {
-            $collection = call_user_func($this->getInitializer());
-            if (!$collection instanceof CollectionInterface) {
-                throw new \RuntimeException(sprintf('Unexpected type given: %s', gettype($collection)));
-            }
-            $this->setCollection($collection);
+
             $this->isInitialized = true;
+
+            $unknownType = new UnknownType(call_user_func($this->getInitializer()));
+
+            if(!$unknownType->isCollection()){
+                throw new \RuntimeException(sprintf('Unexpected type given: %s', gettype($unknownType->getValue())));
+            }
+
+            foreach($unknownType->getAsCollection() as $element){
+                $this->getCollection()->add($element);
+            }
+
         }
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCollection()
+    {
+        if(!$this->isInitialized()){
+            $this->initialize();
+        }
+        return parent::getCollection();
     }
 
     /**
@@ -79,40 +93,6 @@ class LazyCollection extends Collection implements LazyObjectInterface
     }
 
     /**
-     * @param CollectionInterface $collection
-     *
-     * @return $this
-     */
-    public function setCollection(CollectionInterface $collection)
-    {
-        $this->entities = $collection;
-
-        return $this;
-    }
-
-    /**
-     * Get internally stored collection
-     * This method is intended to access internal collection property
-     * without initializing the object itself
-     *
-     * @return CollectionInterface
-     */
-    public function getCollection()
-    {
-        return $this->entities;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
-    {
-        $this->initialize();
-
-        return parent::getIterator();
-    }
-
-    /**
      * @return bool
      */
     public function isInitialized()
@@ -123,89 +103,36 @@ class LazyCollection extends Collection implements LazyObjectInterface
     /**
      * {@inheritdoc}
      */
-    public function isEmpty()
+    public function get()
     {
-        $this->initialize();
-
-        return parent::isEmpty();
+        return new UnknownType($this->getCollection());
     }
 
     /**
      * {@inheritdoc}
-     */
-    public function count()
-    {
-        $this->initialize();
-
-        return parent::count();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetExists($offset)
-    {
-        $this->initialize();
-
-        return parent::offsetExists($offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetGet($offset)
-    {
-        $this->initialize();
-
-        return parent::offsetGet($offset);
-    }
-
-    public function slice($offset = 0, $length = null)
-    {
-        $this->initialize();
-
-        return parent::slice($offset, $length);
-    }
-
-    /**
-     * Throwing exceptions should be done in __sleep
-     * workaround for php not allowing to throw exception during serialize()
-     * affects php 5.5, not visible in php 5.4
-     *
-     * @return string
      */
     public function serialize()
     {
-        $this->initialize();
-        $this->isInitialized = true;
-        $this->initializer = null;
-
-        return parent::serialize();
-    }
-
-    /**
-     * @param  string $serialized
-     * @return void
-     */
-    public function unserialize($serialized)
-    {
-        $that = $this;
-        $this->isInitialized = false;
-
-        $this->initializer = function () use (&$serialized, &$that) {
-            $data = unserialize($serialized);
-            $that->setReadOnly($data['readonly']);
-            return $data['entities'];
-        };
+        return serialize($this->getCollection());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get()
+    public function unserialize($serialized)
     {
-        $this->initialize();
+        $collection = unserialize($serialized);
+        $this->__construct(function() use ($collection){
+            return $collection;
+        });
+    }
 
-        return new UnknownType($this->getCollection());
+    /**
+     * @deprecated since 1.2
+     * @return $this
+     */
+    public function getIterator()
+    {
+        return $this;
     }
 }

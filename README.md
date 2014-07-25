@@ -4,6 +4,10 @@
 
 ###1.2.x
 
+- removed Serializable interface from Collection
+- added Serializable interface to LazyCollection
+- added deprecation mark to LazyCollection which **will became** **final** in 1.3
+- added **CollectionProxy** class
 - added CollectionInterface::sort(SorterInterface $sorter) for collections
 - added EnumInterface::equals(EnumInterface $enum) for enums
 
