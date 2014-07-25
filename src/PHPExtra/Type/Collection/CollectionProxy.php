@@ -22,7 +22,18 @@ class CollectionProxy implements CollectionInterface
      */
     function __construct(CollectionInterface $collection)
     {
+        $this->setCollection($collection);
+    }
+
+    /**
+     * @param CollectionInterface $collection
+     *
+     * @return $this
+     */
+    public function setCollection(CollectionInterface $collection)
+    {
         $this->collection = $collection;
+        return $this;
     }
 
     /**
