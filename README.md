@@ -1,4 +1,5 @@
 #Common classes and interfaces for PHP
+[![Build Status](https://travis-ci.org/phpextra/common.png?branch=master)](https://travis-ci.org/phpextra/common)
 
 ##Usage
 
