@@ -134,6 +134,17 @@ class UnknownType
     }
 
     /**
+     * Tell that given unknown value can be sorted using SorterInterface
+     *
+     * @see SorterInterface
+     * @return bool
+     */
+    public function isSortable()
+    {
+        return $this->getValue() instanceof SortableInterface;
+    }
+
+    /**
      * @return bool
      */
     public function isString()

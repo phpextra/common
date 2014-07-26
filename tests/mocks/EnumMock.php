@@ -1,30 +1,24 @@
 <?php
-use PHPExtra\Type\Enum\Enum;
 
 /**
- * EnumMock
+ * EnumMock without default value
  *
  * @author Jacek Kobus <kobus.jacek@gmail.com>
  */
-class EnumMock extends Enum
+class EnumMock extends \PHPExtra\Type\Enum\AbstractEnum
 {
     const VAL1 = 1;
     const VAL2 = 2;
     const VAL3 = 3;
-
-    /**
-     * Force object validation
-     *
-     * @var bool
-     */
-    public $forceValid = false;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($value, $forceValid = false)
-    {
-        $this->forceValid = $forceValid;
-        parent::__construct($value);
-    }
 }
+
+/**
+ * The EnumMock2 class with default value
+ *
+ * @author Jacek Kobus <kobus.jacek@gmail.com>
+ */
+class EnumMock2 extends EnumMock
+{
+    const _default = 3;
+}
+

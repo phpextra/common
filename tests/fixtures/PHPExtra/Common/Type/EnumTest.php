@@ -7,22 +7,33 @@
  */
 class EnumTest extends PHPUnit_Framework_TestCase
 {
-
     public function testCreateEnumReturnsEnumWithValidValue()
     {
         $enum = new EnumMock(EnumMock::VAL1);
 
-        $this->assertEquals(EnumMock::VAL1, $enum->__toString());
         $this->assertEquals(EnumMock::VAL1, $enum->getValue());
-        $this->assertEquals((string)EnumMock::VAL1, (string)$enum);
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException UnexpectedValueException
      */
-    public function testCreateEnumWithInvalidValueThrowsInvalidArgumentException()
+    public function testCreateEnumWithInvalidValueThrowsException()
     {
-        $enum = new EnumMock(15);
+        new EnumMock(15);
+    }
+
+    public function testCreateEnumWithoutConstructorArgWillUseDefaultEnumValue()
+    {
+        $enum = new EnumMock2();
+        $this->assertEquals(EnumMock2::VAL3, $enum->getValue());
+    }
+
+    /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testCreateEnumWithoutDefaultValueAndConstructorArgThrowsException()
+    {
+        new EnumMock();
     }
 }
  

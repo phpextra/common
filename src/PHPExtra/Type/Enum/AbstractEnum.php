@@ -12,23 +12,21 @@ abstract class AbstractEnum implements EnumInterface
     /**
      * @var string
      */
-    protected $value;
+    private $value;
 
     /**
-     * @var array
-     */
-    protected $validValues = array();
-
-    /**
-     * @param mixed $value
+     * @param string $value
      *
-     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
      */
-    public function __construct($value)
+    public function __construct($value = null)
     {
-        if (!$this->isValid($value)) {
-            $validValues = implode(', ', $this->getValidValues());
-            throw new \InvalidArgumentException(sprintf('Invalid value ("%s"), must be one of: %s', (string)$value, $validValues));
+        if(!$value && static::_default !== null){
+            $value = static::_default;
+        }
+
+        if (!self::isValid($value)) {
+            throw new \UnexpectedValueException(sprintf('Unexpected value "(%s)%s"', gettype($value), $value));
         }
         $this->value = $value;
     }
@@ -42,37 +40,18 @@ abstract class AbstractEnum implements EnumInterface
     }
 
     /**
-     * @param mixed $value
+     * @param $value
      *
-     * @return bool
-     */
-    protected function isValid($value)
-    {
-        return in_array($value, $this->getValidValues());
-    }
-
-    /**
-     * @param array $validValues
-     *
-     * @return $this
-     */
-    public function setValidValues(array $validValues)
-    {
-        $this->validValues = $validValues;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
-    public function getValidValues()
+    public static function isValid($value)
     {
-        if(empty($this->validValues)){
-            $reflection = new \ReflectionClass(get_class($this));
-            $this->setValidValues($reflection->getConstants());
+        if($value === null){
+            return false;
         }
-        return $this->validValues;
+
+        $reflection = new \ReflectionClass(get_called_class());
+        return in_array($value, $reflection->getConstants());
     }
 
     /**

@@ -10,11 +10,20 @@ namespace PHPExtra\Type\Enum;
 interface EnumInterface
 {
     /**
+     * Default value for this enum
+     */
+    const _default = null;
+
+    /**
+     * Get string value of this enum
+     *
      * @return string
      */
     public function getValue();
 
     /**
+     * Tell if given enum is equal
+     *
      * @param EnumInterface $value
      *
      * @return bool
