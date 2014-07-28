@@ -126,7 +126,7 @@ echo $paginator->hasNextPage(); // returns bool true or false
     - added deprecation mark to **Enum class** as it will be changed to **abstract** in 1.3
     - added default value for enums
     - AbstractEnum::isValid($val) is now static
-    - added AbstractEnum:isEqual(EnumInterface $enum)
+    - added AbstractEnum:equals(EnumInterface $enum)
 - updated README
 
 
