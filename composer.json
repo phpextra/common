@@ -18,10 +18,10 @@
         "phpextra/sorter": "~1.0"
     },
     "require-dev": {
-        "phpextra/qa-tools": "~1.0"
+        "phpunit/phpunit": "~3.7"
     },
     "archive": {
-        "exclude": ["/build", "/tests", "phpunit.bat", "fixer.bat", "phpunit.xml.dist", "test.php", "test.bat", "build.xml"]
+        "exclude": ["/build", "/tests", "phpunit.bat", "fixer.bat", "phpunit.xml.dist", "build.xml"]
     },
     "extra": {
         "branch-alias": {
