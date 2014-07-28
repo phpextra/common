@@ -1,5 +1,11 @@
 #Common classes and interfaces for PHP
-[![Build Status](https://travis-ci.org/phpextra/common.png?branch=master)](https://travis-ci.org/phpextra/common)
+[![Latest Stable Version](https://poser.pugx.org/phpextra/sorter/v/stable.svg)](https://packagist.org/packages/phpextra/common)
+[![Total Downloads](https://poser.pugx.org/phpextra/common/downloads.svg)](https://packagist.org/packages/phpextra/common)
+[![License](https://poser.pugx.org/phpextra/common/license.svg)](https://packagist.org/packages/phpextra/common)
+[![Build Status](http://img.shields.io/travis/phpextra/common.svg)](https://travis-ci.org/phpextra/common)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpextra/common/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpextra/common/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phpextra/common/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpextra/common/?branch=master)
+[![GitTip](http://img.shields.io/gittip/jkobus.svg)](https://www.gittip.com/jkobus)
 
 ##Usage
 
@@ -7,24 +13,28 @@
 
 Create your first enum type by creating a new class:
 
-    class TheGuy extends AbstractEnum
-    {
-        const _default = self::NICE_GUY;
-        const SMART_GUY = 'Mike';
-        const NICE_GUY = 'Rick';
-    }
+```php
+class TheGuy extends AbstractEnum
+{
+    const _default = self::NICE_GUY;
+    const SMART_GUY = 'Mike';
+    const NICE_GUY = 'Rick';
+}
+```
 
 Thats all.
 
 Now you can use it:
 
-    $guy = new TheGuy();
-    echo $guy->getValue(); // returns Rick
+```php
+$guy = new TheGuy();
+echo $guy->getValue(); // returns Rick
 
-    $mike = new TheGuy(TheGuy::MIKE);
-    echo $mike->getValue(); // returns Mike
+$mike = new TheGuy(TheGuy::MIKE);
+echo $mike->getValue(); // returns Mike
 
-    echo $guy->isEqual($mike); // returns false
+echo $guy->equals($mike); // returns false
+```
 
 If no default value will be specified, you must set it as a constructor argument.
 If given constructor value will be invalid, ``\UnexpectedValueException`` will be thrown.
@@ -38,59 +48,68 @@ contents only if and when it's needed.
 
 Create your first collection:
 
-    $collection = new Collection();
+```php
+$collection = new Collection();
 
-    $collection->add('item1');
-    $collection->add('item2');
-    $collection->add('item3);
+$collection->add('item1');
+$collection->add('item2');
+$collection->add('item3);
+```
 
 Use it:
 
-    echo count($collection); // returns 3
-    echo $collection[0]; // returns "item1"
-    echo $collection->slice(1, 2); // returns Collection with a length of 2 containing item2 and item3.
-    echo $collection->filter(function($element, $offset){ return $offset % 2 == 0; }); // returns sub-collection with all elements with even offset number
-    $collection->sort(SorterInterface $sorter); // sorts collection
+```php
+echo count($collection); // returns 3
+echo $collection[0]; // returns "item1"
+echo $collection->slice(1, 2); // returns Collection with a length of 2 containing item2 and item3.
+echo $collection->filter(function($element, $offset){ return $offset % 2 == 0; }); // returns sub-collection with all elements with even offset number
+$collection->sort(SorterInterface $sorter); // sorts collection
+```
 
 Lazy collection example:
 
-    $lazy = new LazyCollection(function(){
-        return new Collection(array(1, 2, 3));
-    });
+```php
+$lazy = new LazyCollection(function(){
+    return new Collection(array(1, 2, 3));
+});
 
-    echo $lazy[2]; // initializes the closure and returns "3"
+echo $lazy[2]; // initializes the closure and returns "3"
+```
 
 ###UnknownType (PHPExtra\Type\UnknownType)
 
 It should not happen but sometimes does - you have a method with many different response types, but want to handle it like a pro:
 
-    $messedUpResponse = $api->getMeSomeChickens(); // returns "Chicken" **or** "Collection" **of** "Chickens" **or** "no" as an error response :-)
+```php
+$messedUpResponse = $api->getMeSomeChickens(); // returns "Chicken" **or** "Collection" **of** "Chickens" **or** "no" as an error response :-)
 
-    $result = new UnknownType($messedUpResponse);
+$result = new UnknownType($messedUpResponse);
 
-    if($result->isCollection()){
-        $result->getAsCollection()->sort($sorter);
-        ...
-    }elseif($result->isException){
-        throw $result->getAsException();
-        ...
-    }
+if($result->isCollection()){
+    $result->getAsCollection()->sort($sorter);
+    ...
+}elseif($result->isException){
+    throw $result->getAsException();
+    ...
+}
+```
 
 UnknownType can be extended and customized :-)
-
 
 ###Paginator (PHPExtra\Paginator)
 
 Paginator is fully compatible with CollectionInterface. It's task is to split large collections into pages.
 
-    $page = 2;
-    $itemsPerPage = 10;
-    $products = new Collection(...);
-    $paginator = new Paginator($products, $page, $itemsPerPage);
+```php
+$page = 2;
+$itemsPerPage = 10;
+$products = new Collection(...);
+$paginator = new Paginator($products, $page, $itemsPerPage);
 
-    echo $paginator->getPage(); // returns a collection with size of 10 for current page
-    echo $paginator->getNextPageNumber(); // returns "3"
-    echo $paginator->hasNextPage(); // returns bool true or false
+echo $paginator->getPage(); // returns a collection with size of 10 for current page
+echo $paginator->getNextPageNumber(); // returns "3"
+echo $paginator->hasNextPage(); // returns bool true or false
+```
 
 ##Changelog
 
@@ -143,13 +162,30 @@ Paginator is fully compatible with CollectionInterface. It's task is to split la
 
 First release
 
+## Installation (Composer)
+
+```json
+{
+    "require": {
+        "phpextra/common":"~1.2"
+    }
+}
+```
+
+##Running tests
+
+```
+// Windows
+composer install & call ./vendor/bin/phpunit.bat ./tests
+```
+
 ##Contributing
 
 All code contributions must go through a pull request.
 Fork the project, create a feature branch, and send me a pull request.
 To ensure a consistent code base, you should make sure the code follows
 the [coding standards](http://symfony.com/doc/2.0/contributing/code/standards.html).
-If you would like to help take a look at the **list of issues**.
+If you would like to help take a look at the [list of issues](https://github.com/phpextra/common/issues).
 
 ##Requirements
 
@@ -162,3 +198,5 @@ Jacek Kobus - <kobus.jacek@gmail.com>
 ## License information
 
     See the file LICENSE.txt for copying permission.
+
+
