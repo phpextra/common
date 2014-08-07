@@ -189,4 +189,12 @@ class CollectionProxy implements CollectionInterface
     {
         return $this->getCollection()->count();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function exists(Closure $c)
+    {
+        return $this->getCollection()->exists($c);
+    }
 }

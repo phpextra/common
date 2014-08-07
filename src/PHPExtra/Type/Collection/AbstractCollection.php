@@ -231,6 +231,20 @@ abstract class AbstractCollection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
+    public function exists(Closure $c)
+    {
+        foreach ($this->entities as $offset => $element) {
+            if ($c($element, $offset)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function slice($offset = 0, $length = null)
     {
         if($this->entities instanceof CollectionInterface){

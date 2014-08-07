@@ -29,7 +29,8 @@ interface CollectionInterface extends \Countable, \ArrayAccess, \Iterator, Sorta
      * Return collection of elements that matched the filter
      * Filter takes two arguments - the element and its index.
      *
-     * @param  Closure             $c
+     * @param  Closure $c c(element, offset)
+     *
      * @return CollectionInterface
      */
     public function filter(Closure $c);
@@ -39,9 +40,20 @@ interface CollectionInterface extends \Countable, \ArrayAccess, \Iterator, Sorta
      *
      * @param Closure $c
      *
-     * @return CollectionInterface
+     * @return CollectionInterface c(offset, element, collection)
      */
     public function forAll(Closure $c);
+
+    /**
+     * Perform given operation on all elements until
+     * boolean true is returned or the end of collection is reached
+     * Complexity: O(n)
+     *
+     * @param Closure $c c(element, offset)
+     *
+     * @return bool
+     */
+    public function exists(Closure $c);
 
     /**
      * Get first element from the collection

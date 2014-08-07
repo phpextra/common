@@ -375,5 +375,23 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertNull($collection->first());
     }
 
+    public function testSearchForAnExistingElementReturnsTrue()
+    {
+        $collection = new Collection();
+        $collection->add((object)array('property' => '12345'));
+
+        $this->assertTrue($collection->exists(function($element){ return $element->property === '12345'; }));
+    }
+
+    public function testSearchForAMissingElementReturnsFalse()
+    {
+        $collection = new Collection();
+        $collection->add((object)array('property' => '12345'));
+        $collection->add((object)array('property' => '12'));
+        $collection->add((object)array('property' => '2'));
+
+        $this->assertFalse($collection->exists(function($element){ return $element->property === '1'; }));
+    }
+
 
 }

@@ -115,6 +115,7 @@ echo $paginator->hasNextPage(); // returns bool true or false
 
 ###1.2.x
 
+- added **CollectionInterface::exists(Closure $c)** method to Collection
 - removed Serializable interface from Collection
 - added Serializable interface to LazyCollection
 - added deprecation mark to LazyCollection which **will became** **final** in 1.3
