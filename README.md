@@ -4,8 +4,6 @@
 [![Total Downloads](https://poser.pugx.org/phpextra/collection/downloads.svg)](https://packagist.org/packages/phpextra/collection)
 [![License](https://poser.pugx.org/phpextra/collection/license.svg)](https://packagist.org/packages/phpextra/collection)
 [![Build Status](http://img.shields.io/travis/phpextra/collection.svg)](https://travis-ci.org/phpextra/collection)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpextra/collection/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpextra/collection/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phpextra/collection/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpextra/collection/?branch=master)
 [![GitTip](http://img.shields.io/gittip/jkobus.svg)](https://www.gittip.com/jkobus)
 
 ##Changelog
