@@ -1,9 +1,9 @@
 #Common classes and interfaces for PHP
 
-[![Latest Stable Version](https://poser.pugx.org/phpextra/collection/v/stable.svg)](https://packagist.org/packages/phpextra/collection)
-[![Total Downloads](https://poser.pugx.org/phpextra/collection/downloads.svg)](https://packagist.org/packages/phpextra/collection)
-[![License](https://poser.pugx.org/phpextra/collection/license.svg)](https://packagist.org/packages/phpextra/collection)
-[![Build Status](http://img.shields.io/travis/phpextra/collection.svg)](https://travis-ci.org/phpextra/collection)
+[![Latest Stable Version](https://poser.pugx.org/phpextra/common/v/stable.svg)](https://packagist.org/packages/phpextra/common)
+[![Total Downloads](https://poser.pugx.org/phpextra/common/downloads.svg)](https://packagist.org/packages/phpextra/common)
+[![License](https://poser.pugx.org/phpextra/common/license.svg)](https://packagist.org/packages/phpextra/common)
+[![Build Status](http://img.shields.io/travis/phpextra/common.svg)](https://travis-ci.org/phpextra/common)
 [![GitTip](http://img.shields.io/gittip/jkobus.svg)](https://www.gittip.com/jkobus)
 
 ##Changelog
