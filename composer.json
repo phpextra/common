@@ -19,6 +19,7 @@
         "phpextra/sorter": "~1.0",
         "phpextra/unknown": "~1.0",
         "phpextra/collection": "~1.0",
+        "phpextra/paginator": "~2.0",
         "phpextra/enum": "~1.0",
         "phpextra/date": "~1.0"
     },
